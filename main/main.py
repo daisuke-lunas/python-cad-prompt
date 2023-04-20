@@ -7,7 +7,7 @@ TEXT_LAYER = "textLayer"
 doc = ezdxf.new("R2018", setup=True)
 
 doc.layers.new(name=LAYER_NAME, dxfattribs={'lineweight': '20'})
-doc.layers.new(name=TEXT_LAYER, dxfattribs={'height': 20, 'font': ""})
+# doc.layers.new(name=TEXT_LAYER, dxfattribs={})
 
 msp = doc.modelspace()
 
@@ -17,7 +17,7 @@ msp.add_line(start=[0, 0], end=[0, 100], dxfattribs={'layer': LAYER_NAME})
 msp.add_line(start=[100, 0], end=[100, 100], dxfattribs={'layer': LAYER_NAME})
 msp.add_line(start=[0, 100], end=[100, 100], dxfattribs={'layer': LAYER_NAME})
 
-msp.add_text(text="最初の部屋", height=0.35).set_placement(
+msp.add_text(text="hogefoo", height=10, dxfattribs={'style': "OpenSans-Light"}).set_placement(
     (50, 50),
     align=TextEntityAlignment.CENTER
 )
