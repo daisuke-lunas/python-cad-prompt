@@ -33,13 +33,13 @@ class Room:
                                              'linetype': "Continuous",
                                              })
         hatch = msp.add_hatch(color=3)
-        hatch.set_pattern_fill("GOST_WOOD", scale=2.0)
+        hatch.set_pattern_fill("GOST_WOOD", scale=self.width/10)
         hatch.paths.add_polyline_path(
             path_vertices=ply.points(),
             is_closed=True
         )
         msp.add_text(text=self.name,
-                     height=5,
+                     height=self.height/10,
                      dxfattribs={'layer': layer, 'style': FONT_NAME}).set_placement(
             ((self.left + self.width)/2, (self.top + self.height)/2),
             align=TextEntityAlignment.CENTER

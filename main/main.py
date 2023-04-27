@@ -16,7 +16,7 @@ msp = doc.modelspace()
 doc.layers.new(name=LAYER_NAME, dxfattribs={'lineweight': '20'})
 doc.layers.new(name=TEXT_LAYER, dxfattribs={})
 
-room = items.Room(0, 0, 150, 75, "最初の部屋")
+room = items.Room(0, 0, 15, 10, "最初の部屋")
 room.draw(msp, LAYER_NAME)
 
 # 保存
