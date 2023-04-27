@@ -1,5 +1,6 @@
 from ezdxf.layouts import Modelspace
 from ezdxf.enums import TextEntityAlignment
+from settings import FONT_NAME
 
 
 class Room:
@@ -39,7 +40,7 @@ class Room:
         )
         msp.add_text(text=self.name,
                      height=5,
-                     dxfattribs={'layer': layer, 'style': "OpenSans-Bold"}).set_placement(
+                     dxfattribs={'layer': layer, 'style': FONT_NAME}).set_placement(
             ((self.left + self.width)/2, (self.top + self.height)/2),
             align=TextEntityAlignment.CENTER
         )
