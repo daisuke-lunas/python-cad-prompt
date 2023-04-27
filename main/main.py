@@ -24,4 +24,4 @@ path = 'square'
 doc.saveas(path+'.dxf')
 
 # 画像で保存
-matplotlib.qsave(msp, path + '.png')
+matplotlib.qsave(msp, path + '.png', size_inches=[1.6, 0.9])
