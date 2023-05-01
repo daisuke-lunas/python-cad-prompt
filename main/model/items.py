@@ -1,6 +1,7 @@
 from ezdxf.layouts import Modelspace
 from ezdxf.enums import TextEntityAlignment
-from settings import FONT_NAME
+from ezdxf.entities.textstyle import Textstyle
+from settings import FONT_FILE_NAME
 
 
 class Room:
@@ -32,16 +33,16 @@ class Room:
                                              'color': 3,
                                              'linetype': "Continuous",
                                              })
-        hatch = msp.add_hatch(color=3)
-        hatch.set_pattern_fill("ANSI34", scale=0.3)
-        hatch.paths.add_polyline_path(
-            path_vertices=ply.points(),
-            is_closed=True
-        )
+        # hatch = msp.add_hatch(color=3)
+        # hatch.set_pattern_fill("ANSI34", scale=0.3)
+        # hatch.paths.add_polyline_path(
+        # path_vertices=ply.points(),
+        # is_closed=True
+        # )
         msp.add_text(text=self.name,
-                     height=self.height/20,
-                     dxfattribs={'layer': layer, 'style': FONT_NAME}).set_placement(
-            ((self.left + self.width)/2, self.top - self.height/2),
+                     height=self.height/14,
+                     dxfattribs={'layer': layer, 'style': FONT_FILE_NAME}).set_placement(
+            (self.left + self.width/2, self.top - self.height/2),
             align=TextEntityAlignment.CENTER
         )
 
@@ -98,7 +99,7 @@ class Wall:
         if self.doorLength > 0:
             # ドアを描く
             doorLeftX = self.left if self.isVertical else self.left + self.doorStartPos
-            doorTopY = self.top + self.doorStartPos if self.isVertical else self.top
+            doorTopY = self.top - self.doorStartPos if self.isVertical else self.top
             doorRightX = self.left + width if self.isVertical else doorLeftX + self.doorLength
             doorBottomY = doorTopY - self.doorLength if self.isVertical else self.top - width
 
@@ -129,3 +130,21 @@ class Pillar:
         self.x = x
         self.y = y
         self.radius = r
+
+    def draw(self, msp: Modelspace, layer: str) -> None:
+        points = [(self.x - self.radius, self.y + self.radius),
+                  (self.x + self.radius, self.y + self.radius),
+                  (self.x + self.radius, self.y - self.radius),
+                  (self.x - self.radius, self.y - self.radius),]
+        ply = msp.add_polyline2d(points=points,
+                                 format="xy",
+                                 close=True,
+                                 dxfattribs={'layer': layer,
+                                             'color': 7,
+                                             'linetype': "Continuous",
+                                             })
+        hatch = msp.add_hatch(color=7)
+        hatch.paths.add_polyline_path(
+            path_vertices=ply.points(),
+            is_closed=True
+        )
