@@ -15,7 +15,7 @@ def drawOuterWalls(msp: Modelspace) -> None:
     bottom = 0
 
     # 上の外壁
-    wall1 = items.Wall(left - 1, top+1, right+2)
+    wall1 = items.Wall(left - 1, top+1, right+2, doorStartPos=3, doorLength=2)
     wall1.draw(msp, LAYER_NAME)
 
     # 左の外壁
@@ -24,11 +24,13 @@ def drawOuterWalls(msp: Modelspace) -> None:
     wall2.draw(msp, LAYER_NAME)
 
     # 右の外壁
-    wall3 = items.Wall(right, top+1, top+2, isVertical=True)
+    wall3 = items.Wall(right, top+1, top+2, isVertical=True,
+                       doorStartPos=15, doorLength=2)
     wall3.draw(msp, LAYER_NAME)
 
     # 下の外壁
-    wall4 = items.Wall(left - 1, bottom, right+2)
+    wall4 = items.Wall(left - 1, bottom, right+2,
+                       doorStartPos=32, doorLength=6)
     wall4.draw(msp, LAYER_NAME)
 
     pillars = [items.Pillar(left, top, 1), items.Pillar(right, top, 1),
@@ -53,20 +55,38 @@ def drawRooms(msp: Modelspace) -> None:
 
 
 def drawPillars(msp: Modelspace) -> None:
-    pass
-
-
-def drawInnerWalls(msp: Modelspace) -> None:
-    # 壁があれば、その端に小柱がある、という想定
-    wall1 = items.Wall(10, 10, 40,)
-
-    pillars = [items.Pillar(0, 10, 0.5),
-               items.Pillar(15, 10, 0.5)]
+    pillars = [items.Pillar(15, 10, 0.5),
+               items.Pillar(30, 10, 0.5),
+               items.Pillar(35, 10, 0.5),
+               items.Pillar(15, 20, 0.5),
+               items.Pillar(35, 20, 0.5),]
     for p in pillars:
         p.draw(msp, LAYER_NAME)
 
-# ------------#
 
+def drawInnerWalls(msp: Modelspace) -> None:
+    horizontalWalls = [
+        items.Wall(0, 10.25, 15, 2, 11, isThin=True),
+        items.Wall(15, 10.25, 15, 5, 5, isThin=True),
+        items.Wall(30, 10.25, 5, isThin=True),
+        items.Wall(35, 10.25, 5, 3, 1.2, isThin=True),
+        items.Wall(15, 20.25, 10, 2.5, 5, isThin=True),
+        items.Wall(25, 20.25, 10, 2.5, 5, isThin=True),
+        items.Wall(35, 20.25, 5, 3, 1.2, isThin=True),]
+    verticalWalls = [
+        items.Wall(14.75, 10, 10, 2, 6, isVertical=True, isThin=True),
+        items.Wall(14.75, 20, 10, 2.5, 5, isVertical=True, isThin=True),
+        items.Wall(14.75, 30, 10, 2, 6, isVertical=True, isThin=True),
+        items.Wall(24.75, 30, 10, isVertical=True, isThin=True),
+        items.Wall(29.75, 10, 10, 2, 2, isVertical=True, isThin=True),
+        items.Wall(34.75, 30, 10, isVertical=True, isThin=True),
+        items.Wall(34.75, 20, 10, 8, 1.2, isVertical=True, isThin=True),]
+
+    for w in horizontalWalls + verticalWalls:
+        w.draw(msp, LAYER_NAME)
+
+
+# ------------#
 
 # dxfのversion指定
 doc = ezdxf.new(ezdxf.const.DXF2018)
@@ -78,13 +98,15 @@ space = doc.modelspace()
 # 今は使ってないので一旦コメント
 # doc.layers.new(name=LAYER_NAME, dxfattribs={'lineweight': '20'})
 
+
 drawOuterWalls(space)
 drawRooms(space)
+drawInnerWalls(space)
 drawPillars(space)
 
 
 # 保存
-path = 'square'
+path = 'sample-rooms'
 doc.saveas(path+'.dxf')
 
 # 画像で保存

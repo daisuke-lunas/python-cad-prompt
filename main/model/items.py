@@ -90,7 +90,8 @@ class Wall:
                                              'linetype': "Continuous",
                                              })
         hatch = msp.add_hatch(color=3)
-        hatch.set_pattern_fill("ANSI37", scale=0.3)
+        s = 0.2 if self.isThin else 0.3
+        hatch.set_pattern_fill("ANSI37", scale=s)
         hatch.paths.add_polyline_path(
             path_vertices=ply.points(),
             is_closed=True
